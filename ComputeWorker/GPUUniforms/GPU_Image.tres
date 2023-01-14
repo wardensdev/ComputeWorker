@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Image.gd" id="1_rdf03"]
+
+[sub_resource type="Image" id="Image_7uu5t"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_rdf03")
+data = SubResource("Image_7uu5t")
+image_size = null
+binding = null
+image_format = null
+alias = ""

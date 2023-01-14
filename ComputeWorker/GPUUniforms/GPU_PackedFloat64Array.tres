@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_PackedFloat64Array.gd" id="1_7h8xe"]
+
+[resource]
+script = ExtResource("1_7h8xe")
+data = [0.0]
+binding = 0
+uniform_type = 0
+alias = ""

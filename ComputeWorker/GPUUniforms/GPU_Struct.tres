@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Struct.gd" id="1_3o4qa"]
+
+[resource]
+script = ExtResource("1_3o4qa")
+struct_data = null
+binding = 0
+uniform_type = 1
+alias = ""

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Texture2DArray.gd" id="1_cmdef"]
+
+[sub_resource type="Texture2DArray" id="Texture2DArray_f7hlw"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_cmdef")
+data = SubResource("Texture2DArray_f7hlw")
+texture_array_size = Vector3i(5, 5, 5)
+binding = 0
+image_format = 108

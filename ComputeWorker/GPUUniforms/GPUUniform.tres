@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPUUniform.gd" id="1_tjkvb"]
+
+[resource]
+script = ExtResource("1_tjkvb")

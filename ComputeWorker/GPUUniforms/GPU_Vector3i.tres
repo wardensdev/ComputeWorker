@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Vector3i.gd" id="1_2od2j"]
+
+[resource]
+resource_local_to_scene = true
+script = ExtResource("1_2od2j")
+data = Vector3i(0, 0, 0)
+binding = 0
