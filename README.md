@@ -1,5 +1,5 @@
 # ComputeWorker
- A Godot plug-in that wraps the RenderingDevice compute API. Provides a custom ComputeWorker class and node that simplifies setup of the compute pipeline, and handles encoding of Godot data types into GLSL shader uniforms and buffers.
+ A Godot plug-in that wraps the RenderingDevice compute API. Provides a custom ComputeWorker class and node that simplifies setup and execution of the compute pipeline, and handles encoding of Godot data types into GLSL data buffers.
  
  ## The ComputeWorker Node
  A ComputeWorker can be added to a scene through the `Create New Node` dialog, or instanced from the `ComputeWorker.tscn` file.
