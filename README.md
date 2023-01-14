@@ -45,6 +45,9 @@ If you want more control over the dispatching and executing of your shader, you 
 
 
 ## GPUUniforms
+
+GPUUniforms are custom resources that encapsulate the setting/getting of uniform data through the RenderingDevice API, and the encoding of data from Godot variants to/from GLSL data types.
+
 Below is a list of the GPU_* types and their corresponding GLSL data types:
 
 - GPU_Boolean: `bool`
