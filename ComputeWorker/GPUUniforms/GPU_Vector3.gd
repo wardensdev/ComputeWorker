@@ -1,4 +1,4 @@
-# GLSL data type encoding: `ivec3`
+# GLSL data type encoding: `dvec3`, `dvec4`
 
 extends GPUUniform
 class_name GPU_Vector3

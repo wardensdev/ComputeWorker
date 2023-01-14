@@ -1,4 +1,4 @@
-# Scrapped for now to complete basic types.
+# GLSL data type encoding: `struct`
 
 extends GPUUniform
 class_name GPU_Struct

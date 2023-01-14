@@ -1,4 +1,4 @@
-# GLSL data type encoding: `ivec3`
+# GLSL data type encoding: `double`, `float`
 
 extends GPUUniform
 class_name GPU_Float

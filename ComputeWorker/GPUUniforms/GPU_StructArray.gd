@@ -1,3 +1,5 @@
+# GLSL data type encoding: `struct[]`
+
 extends GPU_Struct
 class_name GPU_StructArray
 
