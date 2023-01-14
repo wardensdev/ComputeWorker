@@ -19,7 +19,7 @@ Second, add the uniforms that are defined in your shader to the `uniforms` array
 
 Note: The `GPU_*` objects listed represent different Godot data types, and they each correspond to their respective data types in GLSL. More on the specifics of it later.
 
-Add a GPU_* uniform to the array for each uniform in your shader that you want to access/write to from Godot.
+Add a GPU_* uniform to the array for each uniform in your shader that you want to access/write to from Godot. (See **GPUUniforms** below)
 
 When you inspect the GPUUniform you added, there are some properties to set. 
 The first one is `Data`, which is the initial data that the shader will be supplied with.
