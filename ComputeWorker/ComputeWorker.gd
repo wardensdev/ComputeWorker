@@ -95,6 +95,22 @@ func set_uniform_data(data: Variant, binding: int, dispatch: bool = true) -> voi
 		execute_compute_shader()
 
 
+func set_uniform_data_by_alias(data: Variant, alias: String, dispatch: bool = true) -> void:
+	
+	if !initialized:
+		printerr("ComputeWorker must be initialized before accessing uniform data")
+		return
+	
+	var uniform = get_uniform_by_alias(alias)
+	
+	uniform.set_uniform_data(rd, data)
+	
+	# Must dispatch new compute list with updated uniforms to take effect
+	if dispatch:
+		dispatch_compute_list()
+		execute_compute_shader()
+
+
 ## Submit current compute list and wait for sync to update uniform values
 func execute_compute_shader() -> void:
 	

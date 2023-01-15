@@ -1,3 +1,5 @@
+# Standard buffer object, can be used for custom encoding
+
 extends GPUUniform
 class_name GPU_PackedByteArray
 

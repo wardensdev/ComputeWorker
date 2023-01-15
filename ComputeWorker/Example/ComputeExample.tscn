@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://lq0tmmd28v6m"]
+[gd_scene load_steps=14 format=3 uid="uid://lq0tmmd28v6m"]
 
 [ext_resource type="Script" path="res://ComputeWorker/Example/ComputeExample.gd" id="1_be2gl"]
 [ext_resource type="Script" path="res://ComputeWorker/ComputeWorker.gd" id="1_xl0l0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_StructArray.gd" id="4_lh0rh"]
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Vector3.gd" id="5_41740"]
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Color.gd" id="7_8gsbd"]
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Integer.gd" id="8_q6ewi"]
 
 [sub_resource type="Resource" id="Resource_58s1h"]
 script = ExtResource("3_282dg")
@@ -18,7 +19,7 @@ alias = "time"
 [sub_resource type="Resource" id="Resource_tealm"]
 script = ExtResource("4_lh0rh")
 array_size = 10
-struct_data = [Vector3(0, 0, 0), Vector3(0, 0, 0), 0.0, 0.0, 0.0]
+struct_data = [Vector3(0, 2, 0), Vector3(0, 1, 0), 1.1, 2, 3.5]
 binding = 1
 uniform_type = 1
 alias = "obj_arr"
@@ -37,11 +38,18 @@ binding = 3
 uniform_type = 1
 alias = "result"
 
+[sub_resource type="Resource" id="Resource_g2def"]
+script = ExtResource("8_q6ewi")
+data = 1000
+binding = 4
+uniform_type = 1
+alias = "test_int"
+
 [node name="ComputeExample" type="Node3D"]
 script = ExtResource("1_be2gl")
-test_vector = Vector3(1.5, 3, 400)
+test_vector = Vector3(1.5, 3, 300)
 
 [node name="ComputeWorker" type="Node" parent="."]
 script = ExtResource("1_xl0l0")
 shader_file = ExtResource("2_fgw4v")
-uniforms = [SubResource("Resource_58s1h"), SubResource("Resource_tealm"), SubResource("Resource_c4ea7"), SubResource("Resource_uet3e")]
+uniforms = [SubResource("Resource_58s1h"), SubResource("Resource_tealm"), SubResource("Resource_c4ea7"), SubResource("Resource_uet3e"), SubResource("Resource_g2def")]

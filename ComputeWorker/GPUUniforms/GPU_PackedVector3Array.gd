@@ -1,4 +1,4 @@
-# GLSL data type encoding: `ivec3`
+# GLSL data type encoding: `vec4[]`, `vec3[]`
 
 extends GPUUniform
 class_name GPU_PackedVector3Array

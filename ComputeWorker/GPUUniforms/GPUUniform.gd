@@ -30,12 +30,14 @@ func bool_to_byte_array(value: bool) -> PackedByteArray:
 		arr.encode_u32(0, 0.0)
 		return arr
 
+
 func byte_array_to_bool(array: PackedByteArray) -> bool:
 	var num = array.decode_u32(0)
 	if num != 0:
 		return true
 	else:
 		return false
+
 
 ## Convert Color to GLSL equivalent `dvec4`
 func color_to_byte_array(color: Color) -> PackedByteArray:
@@ -61,9 +63,30 @@ func float_to_byte_array_8(num: float) -> PackedByteArray:
 func float_to_byte_array(num: float) -> PackedByteArray:
 	return PackedFloat64Array([num, 0.0]).to_byte_array()
 
+
 ## Convert GLSL `double, float` to float
 func byte_array_to_float(array: PackedByteArray) -> float:
 	return array.decode_double(0)
+
+
+## Convert an int to GLSL equivalent `int` format
+## Note the loss of precision here. GLSL integers are 32bit, while Godot's are 64bit
+func int_to_byte_array(num: int) -> PackedByteArray:
+	return PackedInt32Array([num, 0, 0, 0]).to_byte_array()
+
+
+## Convert an int to GLSL equivalent `int` format without padding. For use inside structs
+func int_to_byte_array_4(num: int) -> PackedByteArray:
+	return PackedInt32Array([num]).to_byte_array()
+
+
+## Convert GLSL `int` to int
+func byte_array_to_int(array: PackedByteArray) -> int:
+	return array.decode_s32(0)
+
+
+func byte_array_to_uint(array: PackedByteArray) -> int:
+	return array.decode_u32(0)
 
 
 ## Convert GLSL `vec3, ivec3` to Vector3
@@ -133,7 +156,7 @@ func byte_array_to_vec3_array(bytes: PackedByteArray) -> Array[Vector3]:
 	return arr
 
 
-## Convert a Float to GLSL equivalent `double`
+## Convert an array of Floats to GLSL equivalent `double[]`
 func float_array_to_byte_array_64(array: Array[float]) -> PackedByteArray:
 	var bytes = PackedFloat64Array(array).to_byte_array()
 	return bytes

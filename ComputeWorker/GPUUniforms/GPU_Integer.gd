@@ -1,7 +1,7 @@
-# GLSL data type encoding: `double[]`
+# GLSL data type encoding: `int`
 
 extends GPUUniform
-class_name GPU_PackedFloat64Array
+class_name GPU_Integer
 
 enum UNIFORM_TYPES{
 	UNIFORM_BUFFER,
@@ -9,7 +9,7 @@ enum UNIFORM_TYPES{
 }
 
 ## The initial data supplied to the uniform
-@export var data: Array[float] = Array()
+@export var data: int = 0
 ## The shader binding for this uniform
 @export var binding: int = 0
 ## Type of uniform to create. `UNIFORM_BUFFER`s cannot be altered from within the shader
@@ -44,7 +44,7 @@ func create_uniform() -> RDUniform:
 
 func create_rid(rd: RenderingDevice) -> RID:
 	
-	var bytes = PackedFloat64Array(data).to_byte_array()
+	var bytes = int_to_byte_array(data)
 	
 	var buffer: RID = RID()
 	
@@ -57,11 +57,12 @@ func create_rid(rd: RenderingDevice) -> RID:
 	return buffer
 
 
-func get_uniform_data(rd: RenderingDevice) -> Array[float]:
+func get_uniform_data(rd: RenderingDevice) -> int:
 	var out := rd.buffer_get_data(data_rid)
-	return byte_array_64_to_float_array(out)
+	return byte_array_to_int(out)
 
 
-func set_uniform_data(rd: RenderingDevice, array: Array[float]) -> void:
-	var sb_data = float_array_to_byte_array_64(array)
+func set_uniform_data(rd: RenderingDevice, num: int) -> void:
+	var sb_data = int_to_byte_array(num)
 	rd.buffer_update(data_rid, 0 , sb_data.size(), sb_data)
+
