@@ -15,6 +15,7 @@ var rd: RenderingDevice = RenderingServer.create_local_rendering_device()
 
 var uniform_set_rid: RID = RID()
 var compute_pipeline: RID = RID()
+var shader_rid: RID = RID()
 
 var initialized = false
 
@@ -30,7 +31,7 @@ func initialize() -> void:
 	
 	# Load GLSL shader
 	var shader_spirv: RDShaderSPIRV = shader_file.get_spirv()
-	var shader := rd.shader_create_from_spirv(shader_spirv)
+	shader_rid = rd.shader_create_from_spirv(shader_spirv)
 	
 	# Generate uniform set from provided `GPU_*.tres` uniforms
 	var uniform_set = []
@@ -40,10 +41,10 @@ func initialize() -> void:
 		uniform_set.push_back(uniform)
 	
 	# Register uniform set with RenderingDevice
-	uniform_set_rid = _create_uniform_set(uniform_set, shader, uniform_set_id)
+	uniform_set_rid = _create_uniform_set(uniform_set, shader_rid, uniform_set_id)
 	
 	# Create the RenderingDevice compute pipeline
-	compute_pipeline = _create_compute_pipeline(shader)
+	compute_pipeline = _create_compute_pipeline(shader_rid)
 	
 	# Bind uniform set and pipeline to compute list and dispatch
 	dispatch_compute_list()
@@ -171,3 +172,17 @@ func get_uniform_binding_by_alias(alias: String) -> int:
 			return uniform.binding
 	return -1
 
+
+func destroy():
+	rd.free_rid(uniform_set_rid)
+	rd.free_rid(compute_pipeline)
+	rd.free_rid(shader_rid)
+	
+	for uniform in uniforms:
+		rd.free_rid(uniform.data_rid)
+	
+	rd.free()
+
+
+func _exit_tree():
+	destroy()
