@@ -5,7 +5,7 @@
  A ComputeWorker can be added to a scene through the `Create New Node` dialog, or instanced from the `ComputeWorker.tscn` file.
  It can also be instanced in scripts with `ComputeWorker.new()`.
  
- Note: The maximum amount of ComputeWorkers allowed in your project will vary depending on the device the project is running on. This is because each ComputeWorker creates its own local RenderingDevice, which takes a portion of the gpu's resources for itself. If too many are created at the same time, it *will* cause a crash.
+ **Note**: The maximum amount of ComputeWorkers allowed in your project will vary depending on the device the project is running on. This is because each ComputeWorker creates its own local RenderingDevice, which takes a portion of the gpu's resources for itself. If too many are created at the same time, it *will* cause a crash.
 
 ### Setup
 First, drag your `.glsl` shader file into the `shader_file` field in the Inspector.
