@@ -11,7 +11,7 @@ class_name ComputeWorker
 ## The size of the global work group to dispatch.
 @export var work_group_size: Vector3i = Vector3i(1, 1, 1)
 
-var rd: RenderingDevice = RenderingServer.create_local_rendering_device()
+var rd: RenderingDevice = null
 
 var uniform_set_rid: RID = RID()
 var compute_pipeline: RID = RID()
@@ -28,6 +28,9 @@ signal compute_end
 ## Initial uniform data can be set by getting the uniform using `get_uniform_by_binding()` or `get_uniform_by_alias()`,
 ## and setting the uniform data directly before calling this.
 func initialize() -> void:
+	
+	if !rd:
+		rd = RenderingServer.create_local_rendering_device()
 	
 	# Load GLSL shader
 	var shader_spirv: RDShaderSPIRV = shader_file.get_spirv()
@@ -174,14 +177,20 @@ func get_uniform_binding_by_alias(alias: String) -> int:
 
 
 func destroy():
+	
+	if !rd: return
+	
 	rd.free_rid(uniform_set_rid)
 	rd.free_rid(compute_pipeline)
 	rd.free_rid(shader_rid)
 	
-	for uniform in uniforms:
-		rd.free_rid(uniform.data_rid)
+	for gpu_uniform in uniforms:
+		rd.free_rid(gpu_uniform.data_rid)
+		gpu_uniform.uniform.clear_ids()
 	
 	rd.free()
+	rd = null
+	initialized = false
 
 
 func _exit_tree():

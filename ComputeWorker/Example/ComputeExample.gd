@@ -9,6 +9,7 @@ extends Node3D
 # A randomized array of objects is also passed into the shader every frame
 
 @export var test_vector: Vector3 = Vector3(0, 0, 0)
+var test_shader_file = preload("res://ComputeWorker/Example/test_glsl.glsl")
 
 func _ready():
 	
@@ -21,17 +22,26 @@ func _ready():
 
 func _process(delta):
 	
-	# Here we just add `delta` to the uniform's current data to get an accumulated time inside the shader.
-	var gpu_time: float = $ComputeWorker.get_uniform_data_by_alias("time")
-	$ComputeWorker.set_uniform_data_by_alias(gpu_time + delta, "time", false)
+	# An example of how to restart the ComputeWorker with a new shader.
+	if Input.is_key_pressed(KEY_SPACE):
+		
+		$ComputeWorker.destroy()
+		$ComputeWorker.shader_file = test_shader_file
+		$ComputeWorker.initialize()
 	
-	# Grab a list of (randomized for demo's sake) objects matching the struct's format, and pass it into the shader.
-	var obj_arr = get_random_obj_array()
-	$ComputeWorker.set_uniform_data_by_alias(obj_arr, "obj_arr")
+	if $ComputeWorker.initialized:
 	
-	# Poll the result of the shader execution. (result == Color(test_vector.xyz, time))
-	var result = $ComputeWorker.get_uniform_data_by_alias("result")
-	print(result)
+		# Here we add `delta` to the uniform's current data to get an accumulated time inside the shader.
+		var gpu_time = $ComputeWorker.get_uniform_data_by_alias("time")
+		$ComputeWorker.set_uniform_data_by_alias(gpu_time + delta, "time", false)
+		
+		# Grab a list of (randomized for demo's sake) objects matching the struct's format, and pass it into the shader.
+		var obj_arr = get_random_obj_array()
+		$ComputeWorker.set_uniform_data_by_alias(obj_arr, "obj_arr")
+		
+		# Poll the result of the shader execution. (result == Color(test_vector.xyz, time))
+		var result = $ComputeWorker.get_uniform_data_by_alias("result")
+		print(result)
 
 
 # Generates a list of struct objects to pass into the shader.
