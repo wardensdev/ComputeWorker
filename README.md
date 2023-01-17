@@ -45,6 +45,8 @@ Once `initialize()` has been called, you can use `get_uniform_data(binding: int)
 
 If you want more control over the dispatching and executing of your shader, you can call `dispatch_compute_list()` and `execute_compute_shader()` manually to run it. If you make changes to the data in your uniforms, you must call `dispatch_compute_list()` before calling `execute_compute_shader()`, or the shader won't receive the updated data.
 
+Calling `destroy()` will stop execution and free the ComputeWorker's RenderingDevice (and all the resources created by it). This can be used to swap out the worker's shader or uniforms. After `destroy()` has been called, `initialize()` must be called again to resume execution and enable the use of the `get_uniform_data` and `set_uniform_data` functions. The `initialized` variable can be used to check if those functions can be called.
+
 
 ## GPUUniforms
 
