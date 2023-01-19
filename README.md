@@ -12,7 +12,7 @@
 #### Shader
 First, drag your `.glsl` shader file into the `shader_file` field in the Inspector.
 
-![image](https://user-images.githubusercontent.com/69459114/213362915-032afad9-00ab-476a-8eb3-22fc4762bd09.png)
+![image](https://user-images.githubusercontent.com/69459114/213370862-bfdca080-8004-417e-8f26-5a012645203b.png)
 
 #### UniformSets
 
