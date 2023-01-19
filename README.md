@@ -12,15 +12,19 @@
 #### Shader
 First, drag your `.glsl` shader file into the `shader_file` field in the Inspector.
 
-![image](https://user-images.githubusercontent.com/69459114/212461962-ab461f48-21d5-412e-95fb-b17d32cd8734.png)
+![image](https://user-images.githubusercontent.com/69459114/213362915-032afad9-00ab-476a-8eb3-22fc4762bd09.png)
 
 #### UniformSets
 
 The second property of the ComputeWorker is `uniform_sets`. This is where you'll define what uniforms you want to be able to access/write to in the shader. UniformSet resources hold an array of GPUUniform resources and a `set_id` that corresponds to the uniform sets in your shader. 
 
-First add a new element to the `uniform_sets` array, and create a new `UniformSet` in the new element.
+First add a new element to the `uniform_sets` array, and create a new `UniformSet` in the empty element.
+
+![image](https://user-images.githubusercontent.com/69459114/213363116-5e750fb1-755d-4622-88ff-d2f07b2111d2.png)
 
 Inside the UniformSet, add a GPUUniform to the `uniforms` array for each uniform in your shader that you wish to access. See **GPUUniforms** below for a list of GPU_* resources and their respective GLSL data types.
+
+![image](https://user-images.githubusercontent.com/69459114/213362774-9234722b-66f1-4ae9-a9e0-fa50a0cb962c.png)
 
 When you inspect the GPUUniforms that you added, there are some properties to set. 
 - `Data`, which is the initial data that the shader will be supplied with.
@@ -28,10 +32,13 @@ When you inspect the GPUUniforms that you added, there are some properties to se
 - `Uniform Type`, which is whether the variable in the shader is defined as a Uniform or Storage Buffer.
 - `Alias`, which is a user-defined identifier that can be used to access your uniforms in a more readable manner.
 
+![image](https://user-images.githubusercontent.com/69459114/213363420-5c8c1e2d-c9a3-4817-8179-a3e70db1414f.png)
+
+
 Finally, set the UniformSet's `set_id` to correspond with the set in your shader.
 
 #### Work Group Size
-After your UniformSets are set up, set the shader's `Work Group Size`. This is the *global* work group size that the shader will be dispatched with.
+After your UniformSets are set up, set the ComputeWorker's `Work Group Size`. This is the *global* work group size that the shader will be dispatched with.
 
 
 ### Use
