@@ -5,11 +5,12 @@ extends Node3D
 
 # The `time` variable is accumulated and updated each frame,
 # and the shader returns `result`, a dvec4 in the form of a Color,
-# which contains the `test_vector` in rgb, and the `time` in the alpha channel.
+# which contains the `test_vector` in rg, `test_float` in b, and the `time` in the alpha channel.
 # A randomized array of objects is also passed into the shader every frame
 
 @export var test_vector: Vector3 = Vector3(0, 0, 0)
 var test_shader_file = preload("res://ComputeWorker/Example/test_glsl.glsl")
+
 
 func _ready():
 	
@@ -33,13 +34,17 @@ func _process(delta):
 	
 		# Here we add `delta` to the uniform's current data to get an accumulated time inside the shader.
 		var gpu_time = $ComputeWorker.get_uniform_data_by_alias("time")
-		$ComputeWorker.set_uniform_data_by_alias(gpu_time + delta, "time", false)
+		$ComputeWorker.set_uniform_data_by_alias(gpu_time + delta, "time", 0, false)
 		
 		# Grab a list of (randomized for demo's sake) objects matching the struct's format, and pass it into the shader.
 		var obj_arr = get_random_obj_array()
-		$ComputeWorker.set_uniform_data_by_alias(obj_arr, "obj_arr")
+		$ComputeWorker.set_uniform_data_by_alias(obj_arr, "obj_arr", 0, false)
 		
-		# Poll the result of the shader execution. (result == Color(test_vector.xyz, time))
+		# Assign a random value to `test_float` in set 1, and dispatch.
+		var rand_float = randf() * 100
+		$ComputeWorker.set_uniform_data_by_alias(rand_float, "test_float", 1)
+		
+		# Poll the result of the shader execution. (result == Color(test_vector.xy, test_float, time))
 		var result = $ComputeWorker.get_uniform_data_by_alias("result")
 		print(result)
 
