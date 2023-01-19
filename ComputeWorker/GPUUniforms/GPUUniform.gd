@@ -12,24 +12,24 @@ class_name GPUUniform
 
 
 ## Set up uniform buffer and register with RenderingDevice. Returns the resulting RDUniform.
-func initialize(rd: RenderingDevice): pass
+func initialize(_rd: RenderingDevice): pass
 ## Set uniform type (Uniform or Storage Buffer), register buffer RID and binding with RDUniform.
 func create_uniform(): pass
 ## Determine size of buffer based on initial data provided, and register with RenderingDevice. Returns buffer RID.
-func create_rid(rd: RenderingDevice): pass
+func create_rid(_rd: RenderingDevice): pass
 ## Retrieves and decodes the data that is currently in the uniform/storage buffer.
-func get_uniform_data(rd: RenderingDevice): pass
+func get_uniform_data(_rd: RenderingDevice): pass
 ## Encodes and sets the data in the uniform/storage buffer.
-func set_uniform_data(rd: RenderingDevice, value): pass
+func set_uniform_data(_rd: RenderingDevice, _value): pass
 
 
 func bool_to_byte_array(value: bool) -> PackedByteArray:
 	var arr = PackedByteArray()
 	if value:
-		arr.encode_u32(0, 1.0)
+		arr.encode_u32(0, 1)
 		return arr
 	else:
-		arr.encode_u32(0, 0.0)
+		arr.encode_u32(0, 0)
 		return arr
 
 
@@ -145,7 +145,7 @@ func byte_array_to_vec3_array(bytes: PackedByteArray) -> Array[Vector3]:
 	
 	var arr: Array[Vector3] = []
 	
-	for v in range(bytes.size() / 16):
+	for v in range(bytes.size() / 16.0):
 		
 		var vec = Vector3()
 		

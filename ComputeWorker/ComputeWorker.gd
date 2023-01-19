@@ -6,7 +6,7 @@ class_name ComputeWorker
 
 ## The GLSL shader file to execute
 @export var shader_file: RDShaderFile = null
-## The set of uniforms to bind to the compute pipeline. Must be GPU_* resources.
+## The uniform sets to bind to the compute pipeline. Must be UniformSet resources.
 @export var uniform_sets: Array[UniformSet] = []
 ## The size of the global work group to dispatch.
 @export var work_group_size: Vector3i = Vector3i(1, 1, 1)
@@ -49,25 +49,25 @@ func initialize() -> void:
 
 
 ## Fetch the data from a uniform by binding id
-func get_uniform_data(binding: int, set: int = 0) -> Variant:
+func get_uniform_data(binding: int, set_id: int = 0) -> Variant:
 	
 	if !initialized:
 		printerr("ComputeWorker must be initialized before accessing uniform data")
 		return
 	
-	var uniform = get_uniform_by_binding(binding, set)
+	var uniform = get_uniform_by_binding(binding, set_id)
 	
 	return uniform.get_uniform_data(rd)
 
 
 ## Fetch the data from a uniform by alias
-func get_uniform_data_by_alias(alias: String, set: int = 0) -> Variant:
+func get_uniform_data_by_alias(alias: String, set_id: int = 0) -> Variant:
 	
 	if !initialized:
 		printerr("ComputeWorker must be initialized before accessing uniform data")
 		return
 	
-	var uniform = get_uniform_by_alias(alias, set)
+	var uniform = get_uniform_by_alias(alias, set_id)
 	
 	return uniform.get_uniform_data(rd)
 
@@ -76,13 +76,13 @@ func get_uniform_data_by_alias(alias: String, set: int = 0) -> Variant:
 ## `initialize()` must be called before setting uniform data with this function.
 ## To set uniform data before `initialized()` is called,
 ## get the GPU_* uniform object with `get_uniform_by_*()` and set the data directly.
-func set_uniform_data(data: Variant, binding: int, set: int = 0, dispatch: bool = true) -> void:
+func set_uniform_data(data: Variant, binding: int, set_id: int = 0, dispatch: bool = true) -> void:
 	
 	if !initialized:
 		printerr("ComputeWorker must be initialized before accessing uniform data")
 		return
 	
-	var uniform = get_uniform_by_binding(binding, set)
+	var uniform = get_uniform_by_binding(binding, set_id)
 	
 	uniform.set_uniform_data(rd, data)
 	
@@ -93,13 +93,13 @@ func set_uniform_data(data: Variant, binding: int, set: int = 0, dispatch: bool 
 
 
 ## Same as `set_uniform_data`, except it searches by the uniform's `alias`
-func set_uniform_data_by_alias(data: Variant, alias: String, set: int = 0, dispatch: bool = true) -> void:
+func set_uniform_data_by_alias(data: Variant, alias: String, set_id: int = 0, dispatch: bool = true) -> void:
 	
 	if !initialized:
 		printerr("ComputeWorker must be initialized before accessing uniform data")
 		return
 	
-	var uniform = get_uniform_by_alias(alias, set)
+	var uniform = get_uniform_by_alias(alias, set_id)
 	
 	uniform.set_uniform_data(rd, data)
 	
@@ -132,8 +132,8 @@ func dispatch_compute_list() -> void:
 	var compute_list := rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(compute_list, compute_pipeline)
 	
-	for set in uniform_sets:
-		rd.compute_list_bind_uniform_set(compute_list, set.uniform_set_rid, set.set_id)
+	for u_set in uniform_sets:
+		rd.compute_list_bind_uniform_set(compute_list, u_set.uniform_set_rid, u_set.set_id)
 		
 	rd.compute_list_dispatch(compute_list, work_group_size.x, work_group_size.y, work_group_size.z)
 	rd.compute_list_end()
@@ -142,34 +142,34 @@ func dispatch_compute_list() -> void:
 ## Get a UniformSet resource by its set id
 func get_uniform_set_by_id(id: int) -> UniformSet:
 	
-	for set in uniform_sets:
-		if set.set_id == id:
-			return set
+	for u_set in uniform_sets:
+		if u_set.set_id == id:
+			return u_set
 	return null
 
 
 ## Get GPU_* uniform object in `set` by binding id
-func get_uniform_by_binding(binding: int, set: int = 0) -> GPUUniform:
+func get_uniform_by_binding(binding: int, set_id: int = 0) -> GPUUniform:
 	
-	for uniform in get_uniform_set_by_id(set).uniforms:
+	for uniform in get_uniform_set_by_id(set_id).uniforms:
 		if uniform.binding == binding:
 			return uniform
 	return null
 
 
 ## Get the GPUUniform object in `set` by its user-defined `alias`
-func get_uniform_by_alias(alias: String, set: int = 0) -> GPUUniform:
+func get_uniform_by_alias(alias: String, set_id: int = 0) -> GPUUniform:
 	
-	for uniform in get_uniform_set_by_id(set).uniforms:
+	for uniform in get_uniform_set_by_id(set_id).uniforms:
 		if uniform.alias == alias:
 			return uniform
 	return null
 
 
 ## Get the binding id of the GPU_* uniform in `set` by user-defined `alias`
-func get_uniform_binding_by_alias(alias: String, set: int = 0) -> int:
+func get_uniform_binding_by_alias(alias: String, set_id: int = 0) -> int:
 	
-	for uniform in get_uniform_set_by_id(set).uniforms:
+	for uniform in get_uniform_set_by_id(set_id).uniforms:
 		if uniform.alias == alias:
 			return uniform.binding
 	return -1
@@ -182,8 +182,8 @@ func destroy() -> void:
 	
 	if !rd: return
 	
-	for set in uniform_sets:
-		set.destroy(rd)
+	for u_set in uniform_sets:
+		u_set.destroy(rd)
 	
 	rd.free_rid(compute_pipeline)
 	rd.free_rid(shader_rid)

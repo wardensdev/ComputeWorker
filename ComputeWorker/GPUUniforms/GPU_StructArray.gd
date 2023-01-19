@@ -16,6 +16,8 @@ func initialize(rd: RenderingDevice) -> RDUniform:
 		arr.append_array(by)
 	
 	bytes = arr
+	
+	@warning_ignore(integer_division)
 	byte_length = arr.size() / array_size
 	
 	data_rid = create_rid(rd)
@@ -54,9 +56,13 @@ func get_uniform_data(rd: RenderingDevice) -> Array[Array]:
 	
 	var arr: Array = []
 	
-	for i in range(out.size() / byte_length):
-		var bytes = out.slice(i * byte_length, (i * byte_length) + byte_length)
-		var st = decode_struct(bytes)
+	@warning_ignore(integer_division)
+	var num_arr_elements = out.size() / byte_length
+	
+	for i in range(num_arr_elements):
+		
+		var i_bytes = out.slice(i * byte_length, (i * byte_length) + byte_length)
+		var st = decode_struct(i_bytes)
 		arr.push_back(st)
 	
 	return arr
@@ -64,10 +70,10 @@ func get_uniform_data(rd: RenderingDevice) -> Array[Array]:
 
 func set_uniform_data(rd: RenderingDevice, data: Array[Array]) -> void:
 	
-	var bytes: PackedByteArray = PackedByteArray()
+	var i_bytes: PackedByteArray = PackedByteArray()
 	
 	for i in range(data.size()):
 		var by = encode_struct(data[i], true)
-		bytes.append_array(by)
+		i_bytes.append_array(by)
 	
-	rd.buffer_update(data_rid, 0 , bytes.size(), bytes)
+	rd.buffer_update(data_rid, 0 , i_bytes.size(), i_bytes)
