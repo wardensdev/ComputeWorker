@@ -1,6 +1,8 @@
+@icon("res://ComputeWorker/ComputeWorkerIcon.png")
+
 extends Node
 class_name ComputeWorker
-@icon("res://ComputeWorker/ComputeWorkerIcon.png")
+
 
 ## The GLSL shader file to execute
 @export var shader_file: RDShaderFile = null

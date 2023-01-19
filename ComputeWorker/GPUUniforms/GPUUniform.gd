@@ -1,6 +1,8 @@
+@icon("res://ComputeWorker/GPUUniforms/GPUUniformIcon.png")
+
 extends Resource
 class_name GPUUniform
-@icon("res://ComputeWorker/GPUUniforms/GPUUniformIcon.png")
+
 
 ## Base class for uniforms used with ComputeWorker. 
 ## Contains functions used for serializing Godot data types to and from GLSL equivalents.
