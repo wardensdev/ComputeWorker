@@ -61,7 +61,7 @@ Below is a list of the GPU_* types and their corresponding GLSL data types:
 - GPU_Color: `dvec4`
 - GPU_Float: `double`, `float`
 - GPU_Image: `image2D`
-- GPU_Integer: `int`
+- GPU_Integer: `int`, `unit`
 - GPU_PackedByteArray: Can be used for custom encoding
 - GPU_PackedFloat64Array: `double[]`
 - GPU_PackedVector3Array: `vec3[]`, `vec4[]`
@@ -69,7 +69,7 @@ Below is a list of the GPU_* types and their corresponding GLSL data types:
 - GPU_StructArray: `struct[]` (see below)
 - GPU_Texture2DArray: `image2DArray`
 - GPU_Vector3: `dvec3`, `dvec4`
-- GPU_Vector3i: `ivec3`, `ivec4`
+- GPU_Vector3i: `ivec3`, `ivec4`, `uvec3`, `uvec4`
 
 ### Structs
 Structs have an extra setup step compared to the other basic types. `GPU_Struct` has a property called `struct_data`. This property is the initial data that the struct will take in, and its structure must match the structure of the `struct` in your shader.
