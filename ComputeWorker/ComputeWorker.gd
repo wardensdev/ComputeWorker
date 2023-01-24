@@ -10,6 +10,9 @@ class_name ComputeWorker
 @export var uniform_sets: Array[UniformSet] = []
 ## The size of the global work group to dispatch.
 @export var work_group_size: Vector3i = Vector3i(1, 1, 1)
+## If `true`, the worker will use the global rendering pipeline.
+## Use this if you want your shader to be able to interact with e.g. material shaders
+@export var use_global_device: bool = false
 
 var rd: RenderingDevice = null
 
@@ -29,7 +32,10 @@ signal compute_end
 func initialize() -> void:
 	
 	if !rd:
-		rd = RenderingServer.create_local_rendering_device()
+		if use_global_device:
+			rd = RenderingServer.get_rendering_device()
+		else:
+			rd = RenderingServer.create_local_rendering_device()
 	
 	# Load GLSL shader
 	var shader_spirv: RDShaderSPIRV = shader_file.get_spirv()
@@ -112,6 +118,8 @@ func set_uniform_data_by_alias(data: Variant, alias: String, set_id: int = 0, di
 ## Submit current compute list and wait for sync to update uniform values
 func execute_compute_shader() -> void:
 	
+	if use_global_device: return
+	
 	emit_signal("compute_begin")
 	rd.submit()
 	
@@ -187,7 +195,9 @@ func destroy() -> void:
 	
 	rd.free_rid(compute_pipeline)
 	rd.free_rid(shader_rid)
-	rd.free()
+	
+	if !use_global_device:
+		rd.free()
 	
 	rd = null
 	initialized = false
