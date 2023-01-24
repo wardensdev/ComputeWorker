@@ -40,6 +40,9 @@ Finally, set the UniformSet's `set_id` to correspond with the set in your shader
 #### Work Group Size
 After your UniformSets are set up, set the ComputeWorker's `Work Group Size`. This is the *global* work group size that the shader will be dispatched with.
 
+#### Use Global Device
+Setting this boolean to `true` will make the ComputeWorker use the project's *global* RenderingDevice (as returned by `RenderingServer.get_rendering_device()`).
+Only one ComputeWorker can have this enabled at a time.
 
 ### Use
 Before the ComputeWorker can be used, its `initialize()` function must be called. This is the function that sets up and dispatches the compute pipeline. However, if you need to set the initial data that the shader will receive through code, you can get the GPUUniform objects with the `get_uniform_by_*()` functions and set their `data` variable directly.
