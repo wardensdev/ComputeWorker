@@ -10,13 +10,14 @@ class_name GPU_Texture2DArray
 ## The shader binding for this uniform
 @export var binding: int = 0
 ## RenderingDevice.DATA_FORMAT_* enum values only
-@export var image_format: int = RenderingDevice.DATA_FORMAT_R32G32B32A32_SFLOAT
+@export var image_format: int = Image.FORMAT_RGBAF
 
 var raw_data: Array[PackedByteArray] = []
 
 var data_rid: RID = RID()
 var uniform: RDUniform = RDUniform.new()
 
+var uniform_texture_format = RenderingDevice.DATA_FORMAT_R32G32B32A32_SFLOAT
 var texture_type = RenderingDevice.TEXTURE_TYPE_2D_ARRAY
 var uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
 
@@ -49,7 +50,7 @@ func create_rid(rd: RenderingDevice) -> RID:
 	var texture_format = RDTextureFormat.new()
 	
 	texture_format.texture_type = texture_type
-	texture_format.format = image_format
+	texture_format.format = uniform_texture_format
 	
 	texture_format.width = data.get_width()
 	texture_format.height = data.get_height()
