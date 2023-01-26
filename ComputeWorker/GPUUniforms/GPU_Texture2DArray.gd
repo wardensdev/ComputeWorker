@@ -9,7 +9,7 @@ class_name GPU_Texture2DArray
 @export var texture_array_size: Vector3i = Vector3i(1,1,1)
 ## The shader binding for this uniform
 @export var binding: int = 0
-## RenderingDevice.DATA_FORMAT_* enum values only
+## Image.FORMAT_* enum values only
 @export var image_format: int = Image.FORMAT_RGBAF
 
 var raw_data: Array[PackedByteArray] = []
