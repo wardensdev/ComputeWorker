@@ -11,7 +11,6 @@ class_name ComputeWorker
 ## The size of the global work group to dispatch.
 @export var work_group_size: Vector3i = Vector3i(1, 1, 1)
 ## If `true`, the worker will use the global rendering pipeline.
-## Use this if you want your shader to be able to interact with e.g. material shaders
 @export var use_global_device: bool = false
 
 var rd: RenderingDevice = null
