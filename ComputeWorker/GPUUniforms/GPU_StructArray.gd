@@ -17,7 +17,7 @@ func initialize(rd: RenderingDevice) -> RDUniform:
 	
 	bytes = arr
 	
-	@warning_ignore(integer_division)
+	@warning_ignore("integer_division")
 	byte_length = arr.size() / array_size
 	
 	data_rid = create_rid(rd)
@@ -56,7 +56,7 @@ func get_uniform_data(rd: RenderingDevice) -> Array[Array]:
 	
 	var arr: Array = []
 	
-	@warning_ignore(integer_division)
+	@warning_ignore("integer_division")
 	var num_arr_elements = out.size() / byte_length
 	
 	for i in range(num_arr_elements):
