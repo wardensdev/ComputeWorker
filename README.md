@@ -64,7 +64,7 @@ Below is a list of the GPU_* types and their corresponding GLSL data types:
 - GPU_Color: `dvec4`
 - GPU_Float: `double`, `float`
 - GPU_Image: `image2D`
-- GPU_Integer: `int`, `unit`
+- GPU_Integer: `int`, `uint`
 - GPU_PackedByteArray: Can be used for custom encoding
 - GPU_PackedFloat64Array: `double[]`
 - GPU_PackedVector3Array: `vec3[]`, `vec4[]`
