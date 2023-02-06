@@ -56,7 +56,7 @@ func get_random_obj_array() -> Array[Array]:
 	var uniform: GPU_StructArray = $ComputeWorker.get_uniform_by_alias("obj_arr")
 	var structure = uniform.struct_data
 	
-	var obj_arr = []
+	var obj_arr: Array[Array] = []
 	
 	for i in range(uniform.array_size):
 		
