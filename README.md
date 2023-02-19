@@ -22,12 +22,12 @@ First add a new element to the `uniform_sets` array, and create a new `UniformSe
 
 ![image](https://user-images.githubusercontent.com/69459114/213363116-5e750fb1-755d-4622-88ff-d2f07b2111d2.png)
 
-Inside the UniformSet, add a GPUUniform to the `uniforms` array for each uniform in your shader that you wish to access. See **GPUUniforms** below for a list of GPU_* resources and their respective GLSL data types.
+Inside the UniformSet, add a GPU_* resource to the `uniforms` array for each uniform in your shader. See **GPUUniforms** below for a list of GPU_* resources and their respective GLSL data types.
 
 ![image](https://user-images.githubusercontent.com/69459114/213362774-9234722b-66f1-4ae9-a9e0-fa50a0cb962c.png)
 
-When you inspect the GPUUniforms that you added, there are some properties to set. 
-- `Data`, which is the initial data that the shader will be supplied with.
+When you inspect the GPUUniforms that you added, there are some properties that need to be set. 
+- `Data`, which is the initial data that the shader will be supplied with. (Can be set from script, see ComputeExample.gd)
 - `Binding`, which should be set to correspond with the binding of the uniform in the shader.
 - `Uniform Type`, which is whether the variable in the shader is defined as a Uniform or Storage Buffer.
 - `Alias`, which is a user-defined identifier that can be used to access your uniforms in a more readable manner.
@@ -42,14 +42,16 @@ After your UniformSets are set up, set the ComputeWorker's `Work Group Size`. Th
 
 #### Use Global Device
 Setting this boolean to `true` will make the ComputeWorker use the project's *global* RenderingDevice (as returned by `RenderingServer.get_rendering_device()`).
-Only one ComputeWorker can have this enabled at a time.
+The global RenderingDevice executes once per frame, so this is a good option if want your shader's execution to be synchronized with the engine's. **Only one ComputeWorker can have this enabled at a time**.
 
 ### Use
-Before the ComputeWorker can be used, its `initialize()` function must be called. This is the function that sets up and dispatches the compute pipeline. However, if you need to set the initial data that the shader will receive through code, you can get the GPUUniform objects with the `get_uniform_by_*()` functions and set their `data` variable directly.
+Before the ComputeWorker can be used, its `initialize()` function must be called. This is the function that sets up the compute pipeline. If you need to set the initial data that the shader will receive through code, you can get the GPUUniform object with the `get_uniform_by_*()` functions and set their `data` variable directly.
 
-Once `initialize()` has been called, you can use `get_uniform_data(binding: int, set: int)` or `get_uniform_data_by_alias(alias: String, set: int)` to retrieve the resulting data from the shader. You can also use `set_uniform_data(data, binding, set, dispatch)` to set the value of the uniform in the shader. If `dispatch` is true, the shader will execute immediately after setting the uniform data.
+Once `initialize()` has been called, you can use `get_uniform_data(binding: int, set: int)` or `get_uniform_data_by_alias(alias: String, set: int)` to retrieve the resulting data from the shader. 
 
-Calling `destroy()` will stop execution and free the ComputeWorker's RenderingDevice (and all the resources created by it). This can be used to swap out the worker's shader or uniforms. After `destroy()` has been called, `initialize()` must be called again to resume execution and enable the use of the `get_uniform_data` and `set_uniform_data` functions. The `initialized` variable can be used to check if those functions can be called.
+Use `set_uniform_data(data, binding, set, dispatch)` or `set_uniform_data_by_alias(data, alias, set, dispatch)` to set the value of the uniform in the shader. If `dispatch` is true, the shader will execute immediately after setting the uniform data.
+
+Calling `destroy()` will stop execution and free the ComputeWorker's RenderingDevice (and all the resources created by it). This can be used to swap out the worker's shader and uniforms. After `destroy()` has been called, `initialize()` must be called again to resume execution and enable the use of the `get_uniform_data` and `set_uniform_data` functions. The `initialized` variable can be used to check if those functions can be called.
 
 If you want more control over the dispatching and executing of your shader, you can call `dispatch_compute_list()` and `execute_compute_shader()` manually to run it. If you make changes to the data in your uniforms, you must call `dispatch_compute_list()` before calling `execute_compute_shader()`, or the shader won't receive the updated data.
 
