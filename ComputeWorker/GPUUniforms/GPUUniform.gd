@@ -120,7 +120,7 @@ func vec3i_to_byte_array(vector: Vector3i) -> PackedByteArray:
 
 
 ## Convert an array of Vector3s to GLSL equivalent `vec3[], vec4[]` format
-func vec3_array_to_byte_array(array: Array[Vector3]):
+func vec3_array_to_byte_array(array: PackedVector3Array):
 	
 	var bytes: PackedByteArray = PackedByteArray()
 	
@@ -141,9 +141,9 @@ func vec3_array_to_byte_array(array: Array[Vector3]):
 
 
 ## Convert GLSL `vec3[]` to an Array of Vector3s
-func byte_array_to_vec3_array(bytes: PackedByteArray) -> Array[Vector3]:
+func byte_array_to_vec3_array(bytes: PackedByteArray) -> PackedVector3Array:
 	
-	var arr: Array[Vector3] = []
+	var arr: PackedVector3Array = PackedVector3Array()
 	
 	for v in range(bytes.size() / 16.0):
 		
@@ -153,7 +153,7 @@ func byte_array_to_vec3_array(bytes: PackedByteArray) -> Array[Vector3]:
 		vec.y = bytes.decode_float(4 + (v * 16))
 		vec.z = bytes.decode_float(8 + (v * 16))
 		
-		arr.push_back(vec)
+		arr.append(vec)
 	
 	return arr
 
