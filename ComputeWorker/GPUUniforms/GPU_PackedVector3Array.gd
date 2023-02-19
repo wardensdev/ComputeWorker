@@ -9,7 +9,9 @@ enum UNIFORM_TYPES{
 }
 
 ## The initial data supplied to the uniform
-@export var data: Array[Vector3] = Array()
+@export var data: PackedVector3Array = PackedVector3Array()
+## The size of the array as defined in the shader. Only used if `data` is not defined.
+@export var array_size: int = 0
 ## The shader binding for this uniform
 @export var binding: int = 0
 ## Type of uniform to create. `UNIFORM_BUFFER`s cannot be altered from within the shader
@@ -20,6 +22,13 @@ var uniform: RDUniform = RDUniform.new()
 
 
 func initialize(rd: RenderingDevice) -> RDUniform:
+	
+	if data.is_empty():
+		
+		assert(array_size > 0, "You must define the uniform's `data` or `array_size`.")
+		
+		if array_size > 0:
+			data.resize(array_size)
 	
 	# Create the buffer using our initial data
 	data_rid = create_rid(rd)
@@ -45,7 +54,7 @@ func create_uniform() -> RDUniform:
 func create_rid(rd: RenderingDevice) -> RID:
 	
 	var bytes = vec3_array_to_byte_array(data)
-	print(bytes)
+	
 	var buffer: RID = RID()
 	
 	match uniform_type:
@@ -57,12 +66,12 @@ func create_rid(rd: RenderingDevice) -> RID:
 	return buffer
 
 
-func get_uniform_data(rd: RenderingDevice) -> Array[Vector3]:
+func get_uniform_data(rd: RenderingDevice) -> PackedVector3Array:
 	var out := rd.buffer_get_data(data_rid)
 	return byte_array_to_vec3_array(out)
 
 
-func set_uniform_data(rd: RenderingDevice, array: Array[Vector3]) -> void:
+func set_uniform_data(rd: RenderingDevice, array: PackedVector3Array) -> void:
 	var sb_data = vec3_array_to_byte_array(array)
 	rd.buffer_update(data_rid, 0 , sb_data.size(), sb_data)
 
