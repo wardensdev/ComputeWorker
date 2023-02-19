@@ -73,7 +73,7 @@ func _process(delta):
 		
 		# Poll the result of the shader execution. (result == Color(test_vector.xy, test_float, time))
 		var result = $ComputeWorker.get_uniform_data_by_alias("result")
-		print($ComputeWorker.get_uniform_data_by_alias("result", 0))
+		print(result)
 
 
 # Generates a list of struct objects to pass into the shader.
