@@ -1,20 +1,22 @@
-[gd_scene load_steps=18 format=3 uid="uid://lq0tmmd28v6m"]
+[gd_scene load_steps=22 format=3 uid="uid://lq0tmmd28v6m"]
 
 [ext_resource type="Script" path="res://ComputeWorker/Example/ComputeExample.gd" id="1_be2gl"]
 [ext_resource type="Script" path="res://ComputeWorker/ComputeWorker.gd" id="1_xl0l0"]
-[ext_resource type="RDShaderFile" uid="uid://ymm2bjkxkunr" path="res://ComputeWorker/Example/test_glsl.glsl" id="2_fgw4v"]
+[ext_resource type="RDShaderFile" uid="uid://dqjpwysd5wl32" path="res://ComputeWorker/Example/test_glsl.glsl" id="2_fgw4v"]
 [ext_resource type="Script" path="res://ComputeWorker/UniformSets/UniformSet.gd" id="4_qss55"]
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Float.gd" id="5_66svv"]
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_StructArray.gd" id="6_s3exw"]
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Vector3.gd" id="7_8e7d6"]
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Integer.gd" id="8_bbhsn"]
 [ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Color.gd" id="8_qrxf1"]
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_PackedFloat64Array.gd" id="10_016bp"]
+[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_PackedVector3Array.gd" id="11_txkll"]
 
 [sub_resource type="Resource" id="Resource_ntob8"]
 script = ExtResource("5_66svv")
 data = 0.0
 binding = 0
-uniform_type = 1
+uniform_type = 0
 alias = "time"
 
 [sub_resource type="Resource" id="Resource_n5517"]
@@ -43,12 +45,12 @@ alias = "result"
 script = ExtResource("8_bbhsn")
 data = 0
 binding = 4
-uniform_type = 1
+uniform_type = 0
 alias = "test_int"
 
 [sub_resource type="Resource" id="Resource_x6x0r"]
 script = ExtResource("4_qss55")
-uniforms = [SubResource("Resource_ntob8"), SubResource("Resource_n5517"), SubResource("Resource_3jhqj"), SubResource("Resource_4orwy"), SubResource("Resource_civi2")]
+uniforms = Array[Resource("res://ComputeWorker/GPUUniforms/GPUUniform.gd")]([SubResource("Resource_ntob8"), SubResource("Resource_n5517"), SubResource("Resource_3jhqj"), SubResource("Resource_4orwy"), SubResource("Resource_civi2")])
 set_id = 0
 
 [sub_resource type="Resource" id="Resource_213ay"]
@@ -58,9 +60,25 @@ binding = 0
 uniform_type = 1
 alias = "test_float"
 
+[sub_resource type="Resource" id="Resource_kq8sp"]
+script = ExtResource("10_016bp")
+data = null
+array_size = 100
+binding = 1
+uniform_type = 0
+alias = "fl_arr"
+
+[sub_resource type="Resource" id="Resource_seqiu"]
+script = ExtResource("11_txkll")
+data = null
+array_size = 100
+binding = 2
+uniform_type = 1
+alias = "vec_arr"
+
 [sub_resource type="Resource" id="Resource_fxcho"]
 script = ExtResource("4_qss55")
-uniforms = [SubResource("Resource_213ay")]
+uniforms = Array[Resource("res://ComputeWorker/GPUUniforms/GPUUniform.gd")]([SubResource("Resource_213ay"), SubResource("Resource_kq8sp"), SubResource("Resource_seqiu")])
 set_id = 1
 
 [node name="ComputeExample" type="Node3D"]
@@ -70,4 +88,4 @@ test_vector = Vector3(2.02, 3, 300)
 [node name="ComputeWorker" type="Node" parent="."]
 script = ExtResource("1_xl0l0")
 shader_file = ExtResource("2_fgw4v")
-uniform_sets = [SubResource("Resource_x6x0r"), SubResource("Resource_fxcho")]
+uniform_sets = Array[ExtResource("4_qss55")]([SubResource("Resource_x6x0r"), SubResource("Resource_fxcho")])
