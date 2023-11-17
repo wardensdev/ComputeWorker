@@ -1,0 +1,139 @@
+[gd_scene load_steps=21 format=3 uid="uid://vlg7kuhwmymw"]
+
+[ext_resource type="Script" path="res://Example/ComputeExample.gd" id="1_b6jtt"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/ComputeWorker.gd" id="2_o31fk"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/GPUUniforms/GPU_Float.gd" id="4_f1108"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/UniformSets/UniformSet.gd" id="4_qss55"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/GPUUniforms/GPU_StructArray.gd" id="5_cvfwj"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/GPUUniforms/GPU_Vector3.gd" id="6_4f4hh"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/GPUUniforms/GPU_Color.gd" id="7_iyo4q"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/GPUUniforms/GPU_Integer.gd" id="8_ys8lo"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/GPUUniforms/GPU_PackedFloat64Array.gd" id="9_d4abl"]
+[ext_resource type="Script" path="res://addons/ComputeWorker/GPUUniforms/GPU_PackedVector3Array.gd" id="10_p6w0c"]
+
+[sub_resource type="Resource" id="Resource_qvfim"]
+script = ExtResource("4_f1108")
+data = 0.0
+binding = 0
+uniform_type = 0
+alias = "time"
+
+[sub_resource type="Resource" id="Resource_w1xcd"]
+script = ExtResource("5_cvfwj")
+array_size = 10
+struct_data = [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
+binding = 1
+uniform_type = 1
+alias = "obj_arr"
+
+[sub_resource type="Resource" id="Resource_hekyb"]
+script = ExtResource("6_4f4hh")
+data = Vector3(0, 0, 0)
+binding = 2
+uniform_type = 1
+alias = "test_vector"
+
+[sub_resource type="Resource" id="Resource_yxfdi"]
+script = ExtResource("7_iyo4q")
+data = Color(0, 0, 0, 1)
+binding = 3
+uniform_type = 1
+alias = "result"
+
+[sub_resource type="Resource" id="Resource_ul2qp"]
+script = ExtResource("8_ys8lo")
+data = 4
+binding = 4
+uniform_type = 0
+alias = "test_int"
+
+[sub_resource type="Resource" id="Resource_u7k52"]
+script = ExtResource("4_qss55")
+uniforms = Array[Resource("res://addons/ComputeWorker/GPUUniforms/GPUUniform.gd")]([SubResource("Resource_qvfim"), SubResource("Resource_w1xcd"), SubResource("Resource_hekyb"), SubResource("Resource_yxfdi"), SubResource("Resource_ul2qp")])
+set_id = 0
+
+[sub_resource type="Resource" id="Resource_ryn0x"]
+script = ExtResource("4_f1108")
+data = 0.0
+binding = 0
+uniform_type = 1
+alias = "test_float"
+
+[sub_resource type="Resource" id="Resource_5ngm4"]
+script = ExtResource("9_d4abl")
+data = PackedFloat64Array(0, 0, 0)
+array_size = 100
+binding = 1
+uniform_type = 0
+alias = "fl_arr"
+
+[sub_resource type="Resource" id="Resource_11jy1"]
+script = ExtResource("10_p6w0c")
+data = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0)
+array_size = 3
+binding = 2
+uniform_type = 1
+alias = "vec_arr"
+
+[sub_resource type="Resource" id="Resource_60kpl"]
+script = ExtResource("4_qss55")
+uniforms = Array[Resource("res://addons/ComputeWorker/GPUUniforms/GPUUniform.gd")]([SubResource("Resource_ryn0x"), SubResource("Resource_5ngm4"), SubResource("Resource_11jy1")])
+set_id = 1
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_b6jtt")
+test_vector = Vector3(0.125, 0.808, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="HFlowContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control/VBox"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+
+[node name="RLabel" type="Label" parent="Control/VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HEllo"
+horizontal_alignment = 1
+
+[node name="GLabel" type="Label" parent="Control/VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HEllo"
+horizontal_alignment = 1
+
+[node name="BLabel" type="Label" parent="Control/VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HEllo"
+horizontal_alignment = 1
+
+[node name="ALabel" type="Label" parent="Control/VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HEllo"
+horizontal_alignment = 1
+
+[node name="ComputeWorker" type="Node" parent="."]
+script = ExtResource("2_o31fk")
+uniform_sets = Array[ExtResource("4_qss55")]([SubResource("Resource_u7k52"), SubResource("Resource_60kpl")])

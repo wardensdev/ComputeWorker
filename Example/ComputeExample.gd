@@ -4,7 +4,7 @@ extends Node3D
 # and the setting and getting of uniform data, including Structs.
 
 @export var test_vector: Vector3 = Vector3(0, 0, 0)
-var test_shader_file = preload("res://ComputeWorker/Example/test_glsl.glsl")
+var test_shader_file = preload("test_glsl.glsl")
 
 
 func _ready():
@@ -33,7 +33,7 @@ func _ready():
 	var vec_arr_uniform = $ComputeWorker.get_uniform_by_alias("vec_arr", 1)
 	vec_arr_uniform.data = vec_arr
 	
-	
+	$ComputeWorker.shader_file = test_shader_file
 	$ComputeWorker.initialize()
 
 
@@ -67,13 +67,17 @@ func _process(delta):
 		dispatch = true
 		
 		# Assign a random value to `test_float` in set 1, and dispatch.
-		var rand_float = randf() * 100
+		var rand_float = randf() 
 		$ComputeWorker.set_uniform_data_by_alias(rand_float, "test_float", 1, dispatch)
 		
 		
 		# Poll the result of the shader execution. (result == Color(test_vector.xy, test_float, time))
 		var result = $ComputeWorker.get_uniform_data_by_alias("result")
-		print(result)
+		$Control/VBox/ColorRect.color = Color(result.r,result.g,result.b,result.a*0.01)
+		$Control/VBox/RLabel.text = "R: " + "%2.3f"%result.r
+		$Control/VBox/GLabel.text = "G: " + "%2.3f"%result.g
+		$Control/VBox/BLabel.text = "B: " + "%2.3f"%result.b
+		$Control/VBox/ALabel.text = "A: " + "%2.3f"%(result.a*0.01)
 
 
 # Generates a list of struct objects to pass into the shader.

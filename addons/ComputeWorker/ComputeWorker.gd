@@ -1,4 +1,4 @@
-@icon("res://ComputeWorker/ComputeWorkerIcon.png")
+@icon("ComputeWorkerIcon.png")
 
 extends Node
 class_name ComputeWorker
