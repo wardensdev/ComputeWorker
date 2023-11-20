@@ -4,7 +4,7 @@ extends Node3D
 # and the setting and getting of uniform data, including Structs.
 
 @export var test_vector: Vector3 = Vector3(0, 0, 0)
-var test_shader_file = preload("res://ComputeWorker/Example/test_glsl.glsl")
+var test_shader_file = preload("res://addons/compute_worker/example/test_glsl.glsl")
 
 
 func _ready():
@@ -17,8 +17,8 @@ func _ready():
 	# The float array is defined as a uniform buffer in our shader,
 	# and thus can't be dynamically sized. So it's good practice to
 	# use the `array_size` value from the Uniform object that was set in the editor.
-	var float_arr = PackedFloat64Array()
-	var float_arr_uniform = $ComputeWorker.get_uniform_by_alias("fl_arr", 1)
+	var float_arr: PackedFloat64Array = PackedFloat64Array()
+	var float_arr_uniform: GPU_PackedFloat64Array = $ComputeWorker.get_uniform_by_alias("fl_arr", 1)
 	
 	float_arr.resize(float_arr_uniform.array_size)
 	float_arr_uniform.data = float_arr
@@ -27,10 +27,10 @@ func _ready():
 	# The vector array is defined as a storage buffer,
 	# and thus is dynamically sized (because it's last in the storage block).
 	# We can pass in whatever size array we want here.
-	var vec_arr = PackedVector3Array()
+	var vec_arr: PackedVector3Array = PackedVector3Array()
 	vec_arr.resize(200)
 	
-	var vec_arr_uniform = $ComputeWorker.get_uniform_by_alias("vec_arr", 1)
+	var vec_arr_uniform: GPU_PackedVector3Array = $ComputeWorker.get_uniform_by_alias("vec_arr", 1)
 	vec_arr_uniform.data = vec_arr
 	
 	
@@ -52,12 +52,12 @@ func _process(delta):
 	if $ComputeWorker.initialized:
 	
 		# Here we add `delta` to the time uniform's current data to get an accumulated time inside the shader.
-		var gpu_time = $ComputeWorker.get_uniform_data_by_alias("time")
+		var gpu_time: float = $ComputeWorker.get_uniform_data_by_alias("time")
 		$ComputeWorker.set_uniform_data_by_alias(gpu_time + delta, "time", 0, dispatch)
 		
 		
 		# Grab a list of struct objects matching the struct's format, and pass it into the shader.
-		var obj_arr = get_obj_array()
+		var obj_arr: Array[Array] = get_obj_array()
 		$ComputeWorker.set_uniform_data_by_alias(obj_arr, "obj_arr", 0, dispatch)
 		
 		
@@ -67,12 +67,11 @@ func _process(delta):
 		dispatch = true
 		
 		# Assign a random value to `test_float` in set 1, and dispatch.
-		var rand_float = randf() * 100
+		var rand_float: float = randf() * 100
 		$ComputeWorker.set_uniform_data_by_alias(rand_float, "test_float", 1, dispatch)
 		
-		
 		# Poll the result of the shader execution. (result == Color(test_vector.xy, test_float, time))
-		var result = $ComputeWorker.get_uniform_data_by_alias("result")
+		var result: Color = $ComputeWorker.get_uniform_data_by_alias("result")
 		print(result)
 
 
@@ -83,13 +82,13 @@ func get_obj_array() -> Array[Array]:
 	# Here we get the StructArray uniform and grab its `struct_data`
 	# to use as a template for our array elements.
 	var uniform: GPU_StructArray = $ComputeWorker.get_uniform_by_alias("obj_arr")
-	var structure = uniform.struct_data
+	var structure: Array = uniform.struct_data
 	
 	var obj_arr: Array[Array] = []
 	
 	for i in range(uniform.array_size):
 		
-		var struct = structure.duplicate()
+		var struct: Array = structure.duplicate()
 		obj_arr.push_back(struct)
 		
 	return obj_arr

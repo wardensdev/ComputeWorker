@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Texture2DArray.gd" id="1_cmdef"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_texture_2d_array.gd" id="1_cmdef"]
 
 [sub_resource type="Texture2DArray" id="Texture2DArray_f7hlw"]
 

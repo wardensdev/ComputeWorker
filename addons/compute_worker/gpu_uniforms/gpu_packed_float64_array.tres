@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_PackedFloat64Array.gd" id="1_7h8xe"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_packed_float64_array.gd" id="1_7h8xe"]
 
 [resource]
 script = ExtResource("1_7h8xe")

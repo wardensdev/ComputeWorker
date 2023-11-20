@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=3 uid="uid://cr1yw8ip7qq4b"]
 
-[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Boolean.gd" id="1_upsvg"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_boolean.gd" id="1_upsvg"]
 
 [resource]
 script = ExtResource("1_upsvg")

@@ -1,4 +1,4 @@
-@icon("res://ComputeWorker/GPUUniforms/GPUUniformIcon.png")
+@icon("res://addons/compute_worker/gpu_uniforms/gpu_uniform_icon.png")
 
 extends Resource
 class_name GPUUniform
@@ -39,6 +39,21 @@ func byte_array_to_bool(array: PackedByteArray) -> bool:
 		return true
 	else:
 		return false
+
+
+## Convert Vector4 to GLSL equivalent `dvec4`
+func vec4_to_byte_array(vector: Vector4) -> PackedByteArray:
+	return PackedFloat64Array([vector.x, vector.y, vector.z, vector.w]).to_byte_array()
+
+
+## Convert GLSL `dvec4` to Vector4
+func byte_array_to_vec4(array: PackedByteArray) -> Vector4:
+	var vec = Vector4()
+	vec.x = array.decode_double(0)
+	vec.y = array.decode_double(8)
+	vec.z = array.decode_double(16)
+	vec.w = array.decode_double(24)
+	return vec
 
 
 ## Convert Color to GLSL equivalent `dvec4`
@@ -89,6 +104,24 @@ func byte_array_to_int(array: PackedByteArray) -> int:
 
 func byte_array_to_uint(array: PackedByteArray) -> int:
 	return array.decode_u32(0)
+
+
+## Convert GLSL `dvec2` to Vector2
+func byte_array_to_vec2(array: PackedByteArray) -> Vector2:
+	
+	var dup = array.duplicate()
+	
+	dup.to_float64_array()
+	var vec = Vector2()
+	vec.x = dup.decode_double(0)
+	vec.y = dup.decode_double(8)
+	
+	return vec
+
+
+## Convert a Vector2 to GLSL equivalent `dvec2`
+func vec2_to_byte_array(vec: Vector2) -> PackedByteArray:
+	return PackedFloat64Array([vec.x, vec.y]).to_byte_array()
 
 
 ## Convert GLSL `vec3, ivec3` to Vector3

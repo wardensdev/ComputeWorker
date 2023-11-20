@@ -1,4 +1,4 @@
-@icon("res://ComputeWorker/UniformSets/UniformSetIcon.png")
+@icon("res://addons/compute_worker/uniform_sets/uniform_set_icon.png")
 
 extends Resource
 class_name UniformSet

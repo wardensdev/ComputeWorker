@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GPU_Vector2" load_steps=2 format=3 uid="uid://veemm371itsg"]
+
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_vector2.gd" id="1_45tnd"]
+
+[resource]
+script = ExtResource("1_45tnd")
+data = Vector2(0, 0)
+binding = 0
+uniform_type = 0
+alias = ""

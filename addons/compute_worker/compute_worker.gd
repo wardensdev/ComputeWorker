@@ -1,4 +1,4 @@
-@icon("res://ComputeWorker/ComputeWorkerIcon.png")
+@icon("res://addons/compute_worker/compute_worker_icon.png")
 
 extends Node
 class_name ComputeWorker
@@ -62,6 +62,10 @@ func get_uniform_data(binding: int, set_id: int = 0) -> Variant:
 	
 	var uniform = get_uniform_by_binding(binding, set_id)
 	
+	if !uniform:
+		printerr("Uniform at binding `" + str(binding) + "` not found in set " + str(set_id) + ".")
+		return
+	
 	return uniform.get_uniform_data(rd)
 
 
@@ -73,6 +77,10 @@ func get_uniform_data_by_alias(alias: String, set_id: int = 0) -> Variant:
 		return
 	
 	var uniform = get_uniform_by_alias(alias, set_id)
+	
+	if !uniform:
+		printerr("Uniform `" + alias + "` not found in set " + str(set_id) + ".")
+		return
 	
 	return uniform.get_uniform_data(rd)
 

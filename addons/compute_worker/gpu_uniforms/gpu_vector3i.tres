@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://ComputeWorker/GPUUniforms/GPU_Vector3i.gd" id="1_2od2j"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_vector3i.gd" id="1_2od2j"]
 
 [resource]
 resource_local_to_scene = true

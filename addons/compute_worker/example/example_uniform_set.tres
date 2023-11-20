@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="UniformSet" load_steps=12 format=3 uid="uid://bnnlrvnl455uy"]
+
+[ext_resource type="Script" path="res://addons/compute_worker/uniform_sets/uniform_set.gd" id="1_x4fkk"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_float.gd" id="2_53uf0"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_struct_array.gd" id="3_hq3h4"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_vector3.gd" id="4_bku60"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_color.gd" id="5_7nelv"]
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_integer.gd" id="6_prb52"]
+
+[sub_resource type="Resource" id="Resource_ntob8"]
+script = ExtResource("2_53uf0")
+data = 0.0
+binding = 0
+uniform_type = 1
+alias = "time"
+
+[sub_resource type="Resource" id="Resource_n5517"]
+script = ExtResource("3_hq3h4")
+array_size = 10
+struct_data = [Vector3(0, 0, 0), Vector3(0, 0, 0), 0.0, 0, 0.0]
+binding = 1
+uniform_type = 1
+alias = "obj_arr"
+
+[sub_resource type="Resource" id="Resource_3jhqj"]
+script = ExtResource("4_bku60")
+data = Vector3(0, 0, 0)
+binding = 2
+uniform_type = 1
+alias = "test_vector"
+
+[sub_resource type="Resource" id="Resource_4orwy"]
+script = ExtResource("5_7nelv")
+data = Color(0, 0, 0, 1)
+binding = 3
+uniform_type = 1
+alias = "result"
+
+[sub_resource type="Resource" id="Resource_civi2"]
+script = ExtResource("6_prb52")
+data = 0
+binding = 4
+uniform_type = 1
+alias = "test_int"
+
+[resource]
+script = ExtResource("1_x4fkk")
+uniforms = Array[Resource("res://addons/compute_worker/GPUUniforms/GPUUniform.gd")]([SubResource("Resource_ntob8"), SubResource("Resource_n5517"), SubResource("Resource_3jhqj"), SubResource("Resource_4orwy"), SubResource("Resource_civi2")])
+set_id = 0

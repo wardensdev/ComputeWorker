@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://mjjoyr6m3r66"]
 
-[ext_resource type="Script" path="res://ComputeWorker/ComputeWorker.gd" id="1_jx8p5"]
+[ext_resource type="Script" path="res://addons/compute_worker/compute_worker.gd" id="1_jx8p5"]
 
 [node name="ComputeWorker" type="Node"]
 script = ExtResource("1_jx8p5")

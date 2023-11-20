@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GPU_Vector4" load_steps=2 format=3 uid="uid://bq6cskr03y5ah"]
+
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_vector4.gd" id="1_nk4m7"]
+
+[resource]
+script = ExtResource("1_nk4m7")
+data = Vector4(0, 0, 0, 0)
+binding = 0
+uniform_type = 0
+alias = ""

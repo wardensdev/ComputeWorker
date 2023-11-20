@@ -45,8 +45,14 @@ layout(set = 1, binding = 2, std430) buffer TestVecArr{
     vec4[] vec_arr;
 };
 
+layout(set = 0, binding = 5, std430) buffer TestVec2{
+    dvec4 test_vec;
+};
+
 void main() {
     result.xy = test_vector.xy;
     result.z = test_float;
     result.w = time;
+
+    test_vec.x += 1.0;
 }

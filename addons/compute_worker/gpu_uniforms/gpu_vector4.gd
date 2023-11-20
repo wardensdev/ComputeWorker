@@ -1,7 +1,7 @@
-# GLSL data type encoding: `bool`
+# GLSL data type encoding: `dvec3`, `dvec4`
 
 extends GPUUniform
-class_name GPU_Boolean
+class_name GPU_Vector4
 
 enum UNIFORM_TYPES{
 	UNIFORM_BUFFER,
@@ -9,7 +9,7 @@ enum UNIFORM_TYPES{
 }
 
 ## The initial data supplied to the uniform
-@export var data: bool = false
+@export var data: Vector4 = Vector4()
 ## The shader binding for this uniform
 @export var binding: int = 0
 ## Type of uniform to create. `UNIFORM_BUFFER`s cannot be altered from within the shader
@@ -44,7 +44,7 @@ func create_uniform() -> RDUniform:
 
 func create_rid(rd: RenderingDevice) -> RID:
 	
-	var bytes = bool_to_byte_array(data)
+	var bytes = vec4_to_byte_array(data)
 	
 	var buffer: RID = RID()
 	
@@ -57,14 +57,12 @@ func create_rid(rd: RenderingDevice) -> RID:
 	return buffer
 
 
-func get_uniform_data(rd: RenderingDevice) -> bool:
+func get_uniform_data(rd: RenderingDevice) -> Vector4:
 	var out := rd.buffer_get_data(data_rid)
-	return byte_array_to_bool(out)
+	return byte_array_to_vec4(out)
 
 
-func set_uniform_data(rd: RenderingDevice, value: bool) -> void:
-	var sb_data = bool_to_byte_array(value)
+func set_uniform_data(rd: RenderingDevice, vector: Vector4) -> void:
+	var sb_data = vec4_to_byte_array(vector)
 	rd.buffer_update(data_rid, 0 , sb_data.size(), sb_data)
-
-
 
