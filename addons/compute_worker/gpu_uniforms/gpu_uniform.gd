@@ -163,7 +163,7 @@ func vec2i_to_byte_array(vector: Vector2i) -> PackedByteArray:
 	return PackedInt32Array([vector.x, vector.y, 0]).to_byte_array()
 
 
-## Convert an array of Vector3s to GLSL equivalent `vec2[], vec3[]` format
+## Convert an array of Vector3s to GLSL equivalent `vec2[]` format
 func vec2_array_to_byte_array(array: PackedVector2Array):
 	
 	var bytes: PackedByteArray = PackedByteArray()
@@ -173,11 +173,10 @@ func vec2_array_to_byte_array(array: PackedVector2Array):
 		
 		vec.x = vector.x
 		vec.y = vector.y
-		vec.z = 0.0
+
 		
-		# We have to add a value for the "w" field for the vector,
-		# because the alignment spec for GLSL vec3s requires 16bytes 
-		var float_arr = PackedFloat32Array([vec.x, vec.y, 0.0]).to_byte_array()
+		
+		var float_arr = PackedFloat32Array([vec.x, vec.y]).to_byte_array()
 		bytes.append_array(float_arr)
 	
 	return bytes
@@ -213,7 +212,7 @@ func vec3_array_to_byte_array(array: PackedVector3Array):
 		
 		# We have to add a value for the "w" field for the vector,
 		# because the alignment spec for GLSL vec3s requires 16bytes 
-		var float_arr = PackedFloat32Array([vector.x, vector.y, vector.z, 0.0]).to_byte_array()
+		var float_arr = PackedFloat32Array([vec.x, vec.y, vec.z, vec.w]).to_byte_array()
 		bytes.append_array(float_arr)
 	
 	return bytes
