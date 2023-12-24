@@ -50,10 +50,9 @@ func create_rid(rd: RenderingDevice) -> RID:
 	return buffer
 
 
-func get_uniform_data(rd: RenderingDevice) -> Array[Array]:
+func get_uniform_data(rd: RenderingDevice):
 	
 	var out := rd.buffer_get_data(data_rid)
-	
 	var arr: Array = []
 	
 	@warning_ignore("integer_division")

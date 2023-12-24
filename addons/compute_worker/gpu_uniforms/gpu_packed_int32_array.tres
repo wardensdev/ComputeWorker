@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GPU_packed_int32_array" load_steps=2 format=3 uid="uid://b5uu7tqhsjaam"]
+
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_packed_int32_array.gd" id="1_571yc"]
+
+[resource]
+script = ExtResource("1_571yc")
+data = null
+binding = 0
+uniform_type = 0
+alias = ""
