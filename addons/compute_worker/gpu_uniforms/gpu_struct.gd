@@ -74,7 +74,6 @@ func set_uniform_data(rd: RenderingDevice, data: Array) -> void:
 func encode_struct(data: Array, init: bool = false) -> PackedByteArray:
 	var arr: PackedByteArray = PackedByteArray()
 	var data_index = 0
-	print("encode_struct data: ", data)
 	
 	for type_obj in struct_data:
 		
@@ -103,7 +102,6 @@ func encode_struct(data: Array, init: bool = false) -> PackedByteArray:
 	if !init:
 		if pad_byte_array(arr).size() != byte_length && uniform.uniform_type == RenderingDevice.UNIFORM_TYPE_UNIFORM_BUFFER:
 			printerr("Data for uniform: " + str(alias) + " does not match struct requirements. Needs: " + str(byte_length) + " was given: " + str(arr.size()))
-	print("encode_struct pad: ", pad_byte_array(arr).to_float32_array())
 	return pad_byte_array(arr)
 
 
@@ -119,7 +117,6 @@ func pad_byte_array(arr: PackedByteArray):
 ## Decode the contents of the passed in PackedByteArray to an Array matching
 ## the order and data types defined in `struct_data`. 
 func decode_struct(data: PackedByteArray) -> Array:
-	print("decode_struct data: ", data.to_float32_array())
 	var arr: Array = []
 	
 	var offset: int = 0
@@ -165,5 +162,4 @@ func decode_struct(data: PackedByteArray) -> Array:
 				var integer = byte_array_to_int(data.slice(offset, offset + 4))
 				arr.push_back(integer)
 				offset += 4
-	print("decode_struct arr: ", arr)
 	return arr
