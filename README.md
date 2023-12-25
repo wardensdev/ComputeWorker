@@ -102,4 +102,5 @@ Below are some resources that you might find useful if you wish to contribute to
 
 
 [OpenGL Buffer Alignment Docs](https://registry.khronos.org/OpenGL/specs/gl/glspec45.core.pdf#page=158)
+
 [OpenGL Data Type Docs](https://www.khronos.org/opengl/wiki/Data_Type_(GLSL))
