@@ -22,7 +22,7 @@ func get_uniform_data(_rd: RenderingDevice): pass
 ## Encodes and sets the data in the uniform/storage buffer.
 func set_uniform_data(_rd: RenderingDevice, _value): pass
 
-
+## Convert Bool to the GLSL equivalent of boolean 
 func bool_to_byte_array(value: bool) -> PackedByteArray:
 	var arr = PackedByteArray()
 	if value:
@@ -32,7 +32,7 @@ func bool_to_byte_array(value: bool) -> PackedByteArray:
 		arr.encode_u32(0, 0)
 		return arr
 
-
+## Convert GLSL `booleans` to Bool
 func byte_array_to_bool(array: PackedByteArray) -> bool:
 	var num = array.decode_u32(0)
 	if num != 0:
@@ -138,18 +138,18 @@ func byte_array_to_vec3(array: PackedByteArray) -> Vector3:
 	return vec
 
 
-## Convert a Vector3 to GLSL equivalent `dvec3, dvec4` format
+## Convert a Vector3 to GLSL equivalent `dvec3` format
 func dvec3_to_byte_array(vector: Vector3) -> PackedByteArray:
 	
 	return PackedFloat64Array([vector.x, vector.y, vector.z, 0.0]).to_byte_array()
 
-## Convert a Vector3 to GLSL equivalent `vec3, vec4` format
+## Convert a Vector3 to GLSL equivalent `vec3` format
 func vec3_to_byte_array(vector: Vector3) -> PackedByteArray:
 	
 	return PackedFloat32Array([vector.x, vector.y, vector.z, 0.0]).to_byte_array()
 
 
-## Convert a Vector3i to GLSL equivalent `ivec3, ivec4` format
+## Convert a Vector3i to GLSL equivalent `ivec3` format
 func vec3i_to_byte_array(vector: Vector3i) -> PackedByteArray:
 	
 	# We have to add a value for the "w" field for the vector,
@@ -158,8 +158,8 @@ func vec3i_to_byte_array(vector: Vector3i) -> PackedByteArray:
 
 func vec2i_to_byte_array(vector: Vector2i) -> PackedByteArray:
 	
-	# We have to add a value for the "w" field for the vector,
-	# because the alignment spec for GLSL vec2s requires 12bytes
+	# We have to add a value for the "z" field for the vector,
+	# because the alignment spec for GLSL vec2s requires 16bytes
 	return PackedInt32Array([vector.x, vector.y, 0]).to_byte_array()
 
 
@@ -197,8 +197,8 @@ func byte_array_to_vec2_array(bytes: PackedByteArray) -> PackedVector2Array:
 	return arr
 
 
-## Convert an array of Vector3s to GLSL equivalent `vec3[], vec4[]` format
-func vec3_array_to_byte_array(array: PackedVector3Array):
+## Convert an array of Vector3s to GLSL equivalent `vec3[]` format
+func vec3_array_to_byte_array(array: PackedVector3Array) -> PackedByteArray:
 	
 	var bytes: PackedByteArray = PackedByteArray()
 	
@@ -241,7 +241,7 @@ func float_array_to_byte_array_64(array: Array[float]) -> PackedByteArray:
 	var bytes = PackedFloat64Array(array).to_byte_array()
 	return bytes
 
-## Convert an array of Floats to GLSL equivalent `double[]`
+## Convert an array of Ints to GLSL equivalent `int[]`
 func int_array_to_byte_array_32(array: Array[int]) -> PackedByteArray:
 	var bytes = PackedInt32Array(array).to_byte_array()
 	return bytes
@@ -251,6 +251,6 @@ func byte_array_64_to_float_array(array: PackedByteArray) -> Array[float]:
 	return Array(array.to_float64_array())
 
 ## Convert a GLSL `int[]` to an Array of Ints
-func byte_array_32_to_int_array(array: PackedByteArray) -> Array[float]:
+func byte_array_32_to_int_array(array: PackedByteArray) -> Array[int]:
 	return Array(array.to_int32_array())
 
