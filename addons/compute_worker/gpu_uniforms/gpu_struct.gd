@@ -58,6 +58,7 @@ func create_rid(rd: RenderingDevice) -> RID:
 
 func get_uniform_data(rd: RenderingDevice):
 	var out := rd.buffer_get_data(data_rid)
+	
 	return decode_struct(out)
 	
 	
@@ -71,13 +72,20 @@ func set_uniform_data(rd: RenderingDevice, data: Array) -> void:
 ## Encode the contents of the passed in `data` Array to PackedByteArray. 
 ## Contents of `data` must match the order and data types defined in `struct_data`.
 func encode_struct(data: Array, init: bool = false) -> PackedByteArray:
-	
 	var arr: PackedByteArray = PackedByteArray()
 	var data_index = 0
 	
 	for type_obj in struct_data:
 		
 		match typeof(type_obj):
+			TYPE_PACKED_VECTOR3_ARRAY:
+				arr.append_array(vec3_array_to_byte_array(data[data_index]))
+			TYPE_PACKED_VECTOR2_ARRAY:
+				arr.append_array(vec2_array_to_byte_array(data[data_index]))
+			TYPE_VECTOR2I:
+				arr.append_array(vec2i_to_byte_array(data[data_index]))
+			TYPE_VECTOR2:
+				arr.append_array(vec2_to_byte_array(data[data_index]))
 			TYPE_VECTOR3I:
 				arr.append_array(vec3i_to_byte_array(data[data_index]))
 			TYPE_COLOR:
@@ -94,7 +102,6 @@ func encode_struct(data: Array, init: bool = false) -> PackedByteArray:
 	if !init:
 		if pad_byte_array(arr).size() != byte_length && uniform.uniform_type == RenderingDevice.UNIFORM_TYPE_UNIFORM_BUFFER:
 			printerr("Data for uniform: " + str(alias) + " does not match struct requirements. Needs: " + str(byte_length) + " was given: " + str(arr.size()))
-	
 	return pad_byte_array(arr)
 
 
@@ -110,14 +117,18 @@ func pad_byte_array(arr: PackedByteArray):
 ## Decode the contents of the passed in PackedByteArray to an Array matching
 ## the order and data types defined in `struct_data`. 
 func decode_struct(data: PackedByteArray) -> Array:
-	
 	var arr: Array = []
 	
 	var offset: int = 0
 	
 	for i in range(struct_data.size()):
-		
 		match typeof(struct_data[i]):
+			
+			TYPE_PACKED_VECTOR3_ARRAY:
+				var arr_size = struct_data[i].size()
+				var pvec3arr = byte_array_to_vec3_array(data.slice(offset, offset + 16*arr_size))
+				arr.push_back(pvec3arr)
+				offset += 16*arr_size
 			TYPE_VECTOR3I:
 				var vec = byte_array_to_vec3(data.slice(offset, offset + 32))
 				arr.push_back(vec)
@@ -130,6 +141,19 @@ func decode_struct(data: PackedByteArray) -> Array:
 				var vec = byte_array_to_vec3(data.slice(offset, offset + 32))
 				arr.push_back(vec)
 				offset += 32
+			TYPE_PACKED_VECTOR2_ARRAY:
+				var arr_size = struct_data[i].size()
+				var pvec2arr = byte_array_to_vec2_array(data.slice(offset, offset + 16*arr_size))
+				arr.push_back(pvec2arr)
+				offset += 16*arr_size
+			TYPE_VECTOR2I:
+				var vec = byte_array_to_vec2(data.slice(offset, offset + 16))
+				arr.push_back(vec)
+				offset += 16
+			TYPE_VECTOR2:
+				var vec = byte_array_to_vec2(data.slice(offset, offset + 16))
+				arr.push_back(vec)
+				offset += 16
 			TYPE_FLOAT:
 				var flo = byte_array_to_float(data.slice(offset, offset + 8))
 				arr.push_back(flo)
@@ -138,5 +162,4 @@ func decode_struct(data: PackedByteArray) -> Array:
 				var integer = byte_array_to_int(data.slice(offset, offset + 4))
 				arr.push_back(integer)
 				offset += 4
-				
 	return arr

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="GPU_PackedVector2Array" load_steps=2 format=3 uid="uid://c1pyh5mnrbuwm"]
+
+[ext_resource type="Script" path="res://addons/compute_worker/gpu_uniforms/gpu_packed_vector2_array.gd" id="1_cmbw3"]
+
+[resource]
+script = ExtResource("1_cmbw3")
+data = null
+array_size = 0
+binding = 0
+uniform_type = 0
+alias = ""

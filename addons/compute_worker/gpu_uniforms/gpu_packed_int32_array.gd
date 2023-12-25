@@ -1,7 +1,7 @@
-# GLSL data type encoding: `vec3[]`
+# GLSL data type encoding: `int`
 
 extends GPUUniform
-class_name GPU_PackedVector3Array
+class_name GPU_PackedInt32Array
 
 enum UNIFORM_TYPES{
 	UNIFORM_BUFFER,
@@ -9,7 +9,7 @@ enum UNIFORM_TYPES{
 }
 
 ## The initial data supplied to the uniform
-@export var data: PackedVector3Array = PackedVector3Array()
+@export var data: PackedInt32Array = PackedInt32Array()
 ## The size of the array as defined in the shader. Only used if `data` is not defined.
 @export var array_size: int = 0
 ## The shader binding for this uniform
@@ -24,11 +24,11 @@ var uniform: RDUniform = RDUniform.new()
 func initialize(rd: RenderingDevice) -> RDUniform:
 	
 	if data.is_empty():
-		
-		assert(array_size > 0, "You must define the uniform's `data` or `array_size`.")
-		
 		if array_size > 0:
 			data.resize(array_size)
+		else:
+			printerr("You must define the uniform's `data` or `array_size`.")
+			return
 	
 	# Create the buffer using our initial data
 	data_rid = create_rid(rd)
@@ -53,12 +53,13 @@ func create_uniform() -> RDUniform:
 
 func create_rid(rd: RenderingDevice) -> RID:
 	
-	var bytes = vec3_array_to_byte_array(data)
+	var bytes = data.to_byte_array()
 	
 	var buffer: RID = RID()
 	
 	match uniform_type:
 		UNIFORM_TYPES.UNIFORM_BUFFER:
+			bytes = pad_byte_array_std140(bytes)
 			buffer = rd.uniform_buffer_create(bytes.size(), bytes)
 		UNIFORM_TYPES.STORAGE_BUFFER:
 			buffer = rd.storage_buffer_create(bytes.size(), bytes)
@@ -66,14 +67,25 @@ func create_rid(rd: RenderingDevice) -> RID:
 	return buffer
 
 
-func get_uniform_data(rd: RenderingDevice) -> PackedVector3Array:
+func get_uniform_data(rd: RenderingDevice) -> PackedInt32Array:
 	var out := rd.buffer_get_data(data_rid)
-	return byte_array_to_vec3_array(out)
+	return out.to_int32_array()
 
 
-func set_uniform_data(rd: RenderingDevice, array: PackedVector3Array) -> void:
-	var sb_data = vec3_array_to_byte_array(array)
+func set_uniform_data(rd: RenderingDevice, array: PackedInt32Array) -> void:
+	var sb_data = array.to_byte_array()
 	rd.buffer_update(data_rid, 0 , sb_data.size(), sb_data)
 
 
-
+func pad_byte_array_std140(arr: PackedByteArray) -> PackedByteArray:
+	
+	arr.resize(arr.size() * 2)
+	var next_offset = 0
+	
+	for i in range(arr.size()):
+		if next_offset + 4 > arr.size():
+			break
+		arr.encode_double(next_offset + 4, 0.0)
+		next_offset += 16
+	
+	return arr

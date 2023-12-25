@@ -1,7 +1,7 @@
-# GLSL data type encoding: `vec3[]`
+# GLSL data type encoding: `vec4[]`, `vec3[]`
 
 extends GPUUniform
-class_name GPU_PackedVector3Array
+class_name GPU_PackedVector2Array
 
 enum UNIFORM_TYPES{
 	UNIFORM_BUFFER,
@@ -9,7 +9,7 @@ enum UNIFORM_TYPES{
 }
 
 ## The initial data supplied to the uniform
-@export var data: PackedVector3Array = PackedVector3Array()
+@export var data: PackedVector2Array = PackedVector2Array()
 ## The size of the array as defined in the shader. Only used if `data` is not defined.
 @export var array_size: int = 0
 ## The shader binding for this uniform
@@ -53,7 +53,7 @@ func create_uniform() -> RDUniform:
 
 func create_rid(rd: RenderingDevice) -> RID:
 	
-	var bytes = vec3_array_to_byte_array(data)
+	var bytes = vec2_array_to_byte_array(data)
 	
 	var buffer: RID = RID()
 	
@@ -66,13 +66,13 @@ func create_rid(rd: RenderingDevice) -> RID:
 	return buffer
 
 
-func get_uniform_data(rd: RenderingDevice) -> PackedVector3Array:
+func get_uniform_data(rd: RenderingDevice) -> PackedVector2Array:
 	var out := rd.buffer_get_data(data_rid)
-	return byte_array_to_vec3_array(out)
+	return byte_array_to_vec2_array(out)
 
 
-func set_uniform_data(rd: RenderingDevice, array: PackedVector3Array) -> void:
-	var sb_data = vec3_array_to_byte_array(array)
+func set_uniform_data(rd: RenderingDevice, array: PackedVector2Array) -> void:
+	var sb_data = vec2_array_to_byte_array(array)
 	rd.buffer_update(data_rid, 0 , sb_data.size(), sb_data)
 
 
