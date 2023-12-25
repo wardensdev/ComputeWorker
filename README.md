@@ -96,6 +96,9 @@ The `struct_data` array could look like this:
 The same concept applies to `GPU_StructArray` (which inherits GPU_Struct), but you also need to set `array_size` to the size of the array defined in the shader.
 
 
-#### Contributor Resources
+## Contributor Resources
+
+Below are some resources that you might find useful if you wish to contribute to this project. If you have any recommendations for additional references, please feel free to open an issue with the link to it, and how you find it useful.
+
 
 [OpenGL Buffer Alignment Docs](https://registry.khronos.org/OpenGL/specs/gl/glspec45.core.pdf#page=158)
